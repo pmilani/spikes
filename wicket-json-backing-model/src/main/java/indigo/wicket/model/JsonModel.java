@@ -20,72 +20,72 @@ import org.codehaus.jackson.map.ObjectMapper;
  * Note: arrays not supported
  */
 public class JsonModel implements IComponentInheritedModel<String> {
-	private static final long serialVersionUID = 1L;
-	
-	private final String json;
-	private transient JsonNode tree;
+    private static final long serialVersionUID = 1L;
 
-	public JsonModel(String json) {
-		this.json = json;
-	}
+    private final String json;
+    private transient JsonNode tree;
 
-	public JsonNode getJsonNode() {
-		if (tree == null) {
-			try {
-				tree = new ObjectMapper().readTree(json);
-			} catch (JsonProcessingException e) {
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return tree;
-	}
+    public JsonModel(String json) {
+        this.json = json;
+    }
 
-	public String getObject() {
-		return json;
-	}
+    public JsonNode getJsonNode() {
+        if (tree == null) {
+            try {
+                tree = new ObjectMapper().readTree(json);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tree;
+    }
 
-	public void setObject(String object) {
-		throw new UnsupportedOperationException();
-	}
+    public String getObject() {
+        return json;
+    }
 
-	public void detach() {
-		tree = null;
-	}
+    public void setObject(String object) {
+        throw new UnsupportedOperationException();
+    }
 
-	protected String propertyExpression(Component component) {
-		return component.getId();
-	}
+    public void detach() {
+        tree = null;
+    }
 
-	@SuppressWarnings("unchecked")
+    protected String propertyExpression(Component component) {
+        return component.getId();
+    }
+
+    @SuppressWarnings("unchecked")
     public IWrapModel<String> wrapOnInheritance(Component component) {
-		return new AttachedJsonModel(component);
-	}
+        return new AttachedJsonModel(component);
+    }
 
-	private class AttachedJsonModel extends JsonPropertyModel implements IWrapModel<String> {
-		private static final long serialVersionUID = 1L;
+    private class AttachedJsonModel extends JsonPropertyModel implements IWrapModel<String> {
+        private static final long serialVersionUID = 1L;
 
-		private final Component owner;
+        private final Component owner;
 
-		public AttachedJsonModel(Component owner) {
-			super(JsonModel.this);
-			this.owner = owner;
-		}
+        public AttachedJsonModel(Component owner) {
+            super(JsonModel.this);
+            this.owner = owner;
+        }
 
-		@Override
-		protected String propertyExpression() {
-			return JsonModel.this.propertyExpression(owner);
-		}
+        @Override
+        protected String propertyExpression() {
+            return JsonModel.this.propertyExpression(owner);
+        }
 
-		public IModel<String> getWrappedModel() {
-			return JsonModel.this;
-		}
+        public IModel<String> getWrappedModel() {
+            return JsonModel.this;
+        }
 
-		@Override
-		public void detach() {
-			super.detach();
-			JsonModel.this.detach();
-		}
-	}
+        @Override
+        public void detach() {
+            super.detach();
+            JsonModel.this.detach();
+        }
+    }
 }

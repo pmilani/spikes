@@ -7,14 +7,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 public class JettyMain {
 
-	public static void main(String[] args) throws Exception {
-	    new JettyMain().start();
+    public static void main(String[] args) throws Exception {
+        new JettyMain().start();
     }
 
-	private void start() throws Exception {
-	    Server server = new Server(8080);
-	    
-	    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+    private void start() throws Exception {
+        Server server = new Server(8080);
+        
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 	    context.setContextPath("/");
 	    
 	    ServletHolder wicket = new ServletHolder(WicketServlet.class);

@@ -9,15 +9,15 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 public class JsonSampleWebapp extends WebApplication {
 
-	@Override
-	protected void init() {
-		mountBookmarkablePage("/jsonmodel", JsonModelDemoPage.class);
-		mountBookmarkablePage("/materialize", MaterializeDemoPage.class);
-	}
+    @Override
+    protected void init() {
+        mountBookmarkablePage("/jsonmodel", JsonModelDemoPage.class);
+        mountBookmarkablePage("/materialize", MaterializeDemoPage.class);
+    }
 	
-	@Override
+    @Override
     public Class<? extends Page> getHomePage() {
-	    return Homepage.class;
+        return Homepage.class;
     }
 
 }
