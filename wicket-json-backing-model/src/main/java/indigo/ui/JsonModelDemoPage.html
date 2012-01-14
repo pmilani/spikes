@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>json model demo</title>
+    <style type="text/css">
+      .source-code {
+        color: #38b;
+      }
+      .bordered {
+        padding: 0em 1em 0em 1em;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    This is our data as JSON code:
+    <div class="bordered source-code">
+      <pre wicket:id="code">
+      </pre>
+    </div>
+    
+    <p>
+    Showing a panel with components inheriting a Json model:
+    <div wicket:id="panel" class="bordered">
+       User: <span wicket:id="name.last"></span>, <span wicket:id="name.first"></span> <br/>
+       Verified: <span wicket:id="verified">></span>
+    </div>
+  </body>
+</html>

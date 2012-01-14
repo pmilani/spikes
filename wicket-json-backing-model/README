@@ -1,0 +1,5 @@
+Sample project to test using Jackson in Wicket applications.
+
+Run as a Java application the class: indigo.app.JettyMain
+Browse:
+    http://localhost:8080/

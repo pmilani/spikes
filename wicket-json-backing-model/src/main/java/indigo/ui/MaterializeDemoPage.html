@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>materialize json demo</title>
+    <style type="text/css">
+      .source-code {
+        color: #38b;
+      }
+      .bordered {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding: 1em;
+        border: 1px solid #ddd;
+      }
+      .data {
+        color: #d44;
+      }
+    </style>
+  </head>
+  <body>
+    This is our data as JSON code:
+    <div class="bordered source-code">
+      <pre wicket:id="code">
+      </pre>
+    </div>
+    
+    <p>
+    <h3>Showing a panel with components backed by materialized beans</h3>
+    <em>
+      Materializing is an object mapping technique, wherein your Java model is defined purely by interfaces with accessor methods.<br>
+      When deserializing, Jackson can materialize those interfaces, which means creating on the fly a concrete instance that implements them.<br>
+      Setting the Jackson object mapper to ignore unknown properties can lead to clean and concise object models to access only
+      the data that will be used.
+    </em>
+    <div wicket:id="panel" class="bordered">
+       user: <span wicket:id="lastName" class="data"></span>, <span wicket:id="firstName" class="data"></span> <br/>
+       verified: <span wicket:id="verified" class="data"></span>
+    </div>
+  </body>
+</html>
