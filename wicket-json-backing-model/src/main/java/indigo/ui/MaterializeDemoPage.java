@@ -30,7 +30,7 @@ public class MaterializeDemoPage extends WebPage {
         WebMarkupContainer p = new WebMarkupContainer("panel");
         p.add(new Label("lastName", user.getName().getLast()));
         p.add(new Label("firstName", user.getName().getFirst()));
-        p.add(new Label("verified", user.getVerified() ? "verified" : "not verified"));
+        p.add(new Label("verified", user.isVerified() ? "verified" : "not verified"));
         return p;
     }
 }
