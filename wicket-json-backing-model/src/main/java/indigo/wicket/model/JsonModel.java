@@ -16,8 +16,6 @@ import org.codehaus.jackson.map.ObjectMapper;
  * This model should be set on a parent component, and let the children have a null model.
  * The children id is used as an <i>expression</i> to navigate the JSON tree and read a value.<br>
  * All values are returned as text.
- * 
- * Note: arrays not supported
  */
 public class JsonModel implements IComponentInheritedModel<String> {
     private static final long serialVersionUID = 1L;

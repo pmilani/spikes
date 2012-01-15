@@ -28,8 +28,7 @@
     <em>
       Here, in analogy with CompoundPropertyModel, a new class JsonModel is used to provide values to child components.<br>
       The wicket component IDs are used as an expression to navigate JSON as a tree and get the desired value.<br>
-      The components have no model, so they inherit the model of their parent component, which is then doing the resolution
-      and extracting the actual values.
+      The components have no model, so they inherit the model of their parent component, which is then extracting the actual values.
     </em>
     <div wicket:id="panel" class="bordered">
        User: <span wicket:id="name.last" class="data"></span>, <span wicket:id="name.first" class="data"></span> <br/>

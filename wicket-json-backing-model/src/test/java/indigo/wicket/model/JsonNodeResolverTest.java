@@ -66,7 +66,7 @@ public class JsonNodeResolverTest {
     }
 
     @Test
-    public void resolve_resolve_properties_within_arrays() {
+    public void resolve_resolve_properties_in_objects_within_arrays() {
         assertEquals("Jane Q.", JsonNodeResolver.asText(tree, "parents[1].first"));
     }
 }
