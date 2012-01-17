@@ -1,0 +1,19 @@
+This project shows using a servlet filter to compile on-the-fly LESS stylesheets.
+This is intended to ease development, rather than for production environments.
+
+This can be run from Eclipse: run as Java application the JettyMain class.
+Then browse: http://localhost:8080/
+
+There are 2 demos to show how changing styles and reloading works: 
+- client side JS interpreter of LESS stylesheets
+- server side LESS to CSS rendering
+
+SERVER SIDE DESCRIPTION
+There is a servlet filter chained on top of a 'default servlet' instance.
+The default servlet serves static content out of the webapp content folder.
+By mapping the filter to intercept all requests for *.css, the filter locates LESS 'source' stylesheets.
+If there is a LESS stylesheet it is rendered and streamed back to the browser as CSS.
+If there is no LESS stylesheet, the filter falls back on the http filter chain for handling the request.
+
+This example setup allows for mixing static CSS files with dynamically generated CSS from LESS source files.
+
