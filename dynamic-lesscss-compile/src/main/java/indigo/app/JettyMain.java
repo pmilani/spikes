@@ -1,8 +1,7 @@
 package indigo.app;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.servlet.*;
 
 public class JettyMain {
 
@@ -17,7 +16,7 @@ public class JettyMain {
 	    context.setContextPath("/");
 	    context.setResourceBase("src/main/webapp");
 	    
-	    context.addServlet(LessStyleServlet.class, "/dyncss/*");
+	    context.addFilter(LessStylesheetFilter.class, "*.css", FilterMapping.ALL);
 	    context.addServlet(DefaultServlet.class, "/*");
 	    
 	    server.setHandler(context);
