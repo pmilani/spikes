@@ -19,7 +19,7 @@ If there is no LESS stylesheet source, the filter falls back on the http filter 
 this allows for static CSS files in addition to the dynamically generated CSS from LESS source files.
 
 LOADING LESS FILES
-In order for dynamic reloading to work, LESS files should be in the web content folder, and the web content 
+In order for dynamic reloading to work, LESS files should be placed in the web content folder, and the web content 
 has to be a 'resource' folder for the project.
 This is due to the filter using getClass().getResource() to load LESS stylesheet sources.
 So either create a folder under 'src/main/resources', or declare additional 'resource' directories in the POM.
