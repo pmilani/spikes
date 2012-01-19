@@ -1,19 +1,43 @@
-This project shows using a servlet filter to compile on-the-fly LESS stylesheets.
+For projects using LESS CSS.
+
+This project provides a servlet filter to compile on-the-fly LESS stylesheets.
 This is intended to ease development, rather than for production environments.
 
-This can be run from Eclipse: run as Java application the JettyMain class.
-Then browse: http://localhost:8080/
+
+TYPICAL SETUP DESCRIPTION
+-------------------------
+The setup verified to work is: a dedicated Jetty server is run from a main class in the test sources.
+Eclipse can run this class and will provide it with the test and main dependencies in the classpath.
+
+
+WEB APP CONTEXT CREATION
+Define a LessStylesheetFilter servlet filter chained on top of a 'default servlet' instance.
+Map the filter to intercept all requests for *.css, so that the filter can find and compile LESS 'source' stylesheets.
+The default servlet serves static content out of the webapp content folder.
+If there is a LESS stylesheet source, it is rendered and streamed back to the browser as CSS.
+If there is no LESS stylesheet source, the filter falls back on the http filter chain for handling the request:
+this allows for static CSS files in addition to the dynamically generated CSS from LESS source files.
+
+LOADING LESS FILES
+In order for dynamic reloading to work, LESS files should be in the web content folder, and the web content 
+has to be a 'resource' folder for the project.
+This is due to the filter using getClass().getResource() to load LESS stylesheet sources.
+So either create a folder under 'src/main/resources', or declare additional 'resource' directories in the POM.
+
+When requesting a CSS file via http, the path info beyond the mapped part of the URL is used to locate the LESS sources.
+The base directory should be the webapp content folder. The default name is 'webapp' but can be changed via
+an init parameter.
+The path info is appended to the base directory to construct a full path to the files to be sent in the http response.
+Alternatively for more control over loading, you should subclass the filter and override getSourceUrlForRequestedPath().
+
+
+EXAMPLE
+-------
+You can check the test sources of this project itself, for a rough reference setup.
+Differently from a typical setup, here the web content is in the test resources to prevent it being packaged in the final artifact.
+
+Run the class JettyMain, then browse to: http://localhost:8080/
 
 There are 2 demos to show how changing styles and reloading works: 
-- client side JS interpreter of LESS stylesheets
+- client side JS interpreter of LESS stylesheets, for comparison
 - server side LESS to CSS rendering
-
-SERVER SIDE DESCRIPTION
-There is a servlet filter chained on top of a 'default servlet' instance.
-The default servlet serves static content out of the webapp content folder.
-By mapping the filter to intercept all requests for *.css, the filter locates LESS 'source' stylesheets.
-If there is a LESS stylesheet it is rendered and streamed back to the browser as CSS.
-If there is no LESS stylesheet, the filter falls back on the http filter chain for handling the request.
-
-This example setup allows for mixing static CSS files with dynamically generated CSS from LESS source files.
-

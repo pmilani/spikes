@@ -1,4 +1,4 @@
-package indigo.app;
+package indigo.less.stylesheet;
 
 import java.io.IOException;
 import java.net.*;
@@ -13,8 +13,14 @@ import com.asual.lesscss.*;
 public class LessStylesheetFilter implements Filter {
     private static final long serialVersionUID = 1L;
     
+    private String lessSourcesPath;
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        lessSourcesPath = filterConfig.getInitParameter("lessSourcesPath");
+        if (lessSourcesPath == null) {
+            lessSourcesPath = "/webapp";
+        }
     }
     
     @Override
@@ -39,15 +45,20 @@ public class LessStylesheetFilter implements Filter {
         }
     }
 
-    private URL getResourceUrl(HttpServletRequest req) {
-        String styleSource = FilenameUtils.getFullPath(req.getPathInfo()) + FilenameUtils.getBaseName(req.getPathInfo()) + ".less";
-		return getClass().getResource("/webapp" + styleSource);
+    /**
+     * Override this for finer control on locating LESS source files.
+     * @param pathInfo from the request
+     * @return to the LESS source file
+     */
+    protected URL getSourceUrlForRequestedPath(String pathInfo) {
+        String styleSource = FilenameUtils.getFullPath(pathInfo) + FilenameUtils.getBaseName(pathInfo) + ".less";
+		return getClass().getResource(lessSourcesPath + styleSource);
     }
 
     private boolean generateCss(HttpServletRequest req, HttpServletResponse resp) throws IOException, URISyntaxException {
         LessEngine engine = new LessEngine();
         try {
-            URL url = getResourceUrl(req);
+            URL url = getSourceUrlForRequestedPath(req.getPathInfo());
             if (url == null) {
                 return false;
             }
