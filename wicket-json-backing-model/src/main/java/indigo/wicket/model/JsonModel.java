@@ -2,7 +2,6 @@ package indigo.wicket.model;
 
 import java.io.IOException;
 
-
 import org.apache.wicket.Component;
 import org.apache.wicket.model.IComponentInheritedModel;
 import org.apache.wicket.model.IModel;
@@ -20,34 +19,47 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class JsonModel implements IComponentInheritedModel<String> {
     private static final long serialVersionUID = 1L;
 
-    private final String json;
+    private String json;
     private transient JsonNode tree;
 
     public JsonModel(String json) {
         this.json = json;
     }
 
+    // FIXME for models constructed this way, after serialization we lose them (tree is transient)
+    public JsonModel(JsonNode tree) {
+        this.tree = tree;
+    }
+    
+    private static JsonNode parse(String json) {
+        try {
+            return new ObjectMapper().readTree(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public JsonNode getJsonNode() {
         if (tree == null) {
-            try {
-                tree = new ObjectMapper().readTree(json);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            tree = parse(json);
         }
         return tree;
     }
 
+    @Override
     public String getObject() {
         return json;
     }
 
-    public void setObject(String object) {
-        throw new UnsupportedOperationException();
+    @Override
+    public void setObject(String json) {
+        this.tree = null;
+        this.json = json;
     }
 
+    @Override
     public void detach() {
         tree = null;
     }
@@ -57,6 +69,7 @@ public class JsonModel implements IComponentInheritedModel<String> {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public IWrapModel<String> wrapOnInheritance(Component component) {
         return new AttachedJsonModel(component);
     }
@@ -67,7 +80,7 @@ public class JsonModel implements IComponentInheritedModel<String> {
         private final Component owner;
 
         public AttachedJsonModel(Component owner) {
-            super(JsonModel.this);
+            super(getJsonNode());
             this.owner = owner;
         }
 
@@ -76,6 +89,7 @@ public class JsonModel implements IComponentInheritedModel<String> {
             return JsonModel.this.propertyExpression(owner);
         }
 
+        @Override
         public IModel<String> getWrappedModel() {
             return JsonModel.this;
         }

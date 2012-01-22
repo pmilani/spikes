@@ -2,17 +2,16 @@ package indigo.wicket.model;
 
 
 import org.apache.wicket.model.AbstractPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.IWrapModel;
+import org.codehaus.jackson.JsonNode;
 
-class JsonPropertyModel extends AbstractPropertyModel<String> implements IWrapModel<String> {
+class JsonPropertyModel extends AbstractPropertyModel<String> {
     private static final long serialVersionUID = 1L;
 
-    private final JsonModel jsonModel;
+    private final JsonNode jsonNode;
 
-    public JsonPropertyModel(JsonModel jsonTreeModel) {
-        super(jsonTreeModel);
-        this.jsonModel = jsonTreeModel;
+    public JsonPropertyModel(JsonNode jsonNode) {
+        super(jsonNode);
+        this.jsonNode = jsonNode;
     }
 
     @Override
@@ -22,11 +21,7 @@ class JsonPropertyModel extends AbstractPropertyModel<String> implements IWrapMo
 
     @Override
     public String getObject() {
-        return JsonNodeResolver.asText(jsonModel.getJsonNode(), getPropertyExpression());
+        return JsonNodeResolver.asText(jsonNode, getPropertyExpression());
     }
 
-    @SuppressWarnings("unchecked")
-    public IModel<String> getWrappedModel() {
-        return (IModel<String>) getTarget();
-    }
 }
